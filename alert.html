@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>弹窗</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
+      body {
+        user-select: none;
+      }
+      .parent {
+        position: fixed;
+        top: 0;
+        left: 40%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+      button {
+        cursor: pointer;
+        border: 1px solid #dcdfe6;
+        background-color: #fff;
+        width: 70px;
+        height: 40px;
+        border-radius: 4px;
+        font-size: 18px;
+      }
+      button:hover {
+        border: 1px solid #409eff;
+      }
+      /* 不同父元素的子元素之间进行显示时，会根据父级元素的z-index进行渲染. */
+      .parent > div {
+        min-width: 200px;
+        max-width: 600px;
+        margin-left: 0;
+        margin-bottom: 1rem;
+        border-radius: 0.3rem;
+        font-size: 20px;
+        padding: 6px;
+        vertical-align: middle;
+        animation: myfirst 1s ease-in;
+      }
+      [type="success"] {
+        background-color: rgba(169, 241, 181, 0.781);
+        color: rgb(6, 128, 46);
+        border: 1px solid rgb(105, 233, 105);
+        box-shadow: 2px 2px 3px rgba(134, 247, 134, 0.473);
+      }
+      [type="success"]::before {
+        content: "☺   ";
+      }
+      [type="warning"] {
+        background-color: rgba(245, 240, 216, 0.781);
+        color: rgb(128, 106, 6);
+        border: 1px solid rgb(214, 233, 105);
+        box-shadow: 1px 1px 1px rgba(236, 247, 134, 0.473);
+      }
+      [type="warning"]::before {
+        content: "● ";
+      }
+      [type="info"] {
+        background-color: rgba(223, 237, 245, 0.986);
+        color: rgb(6, 79, 128);
+        border: 1px solid rgb(105, 207, 233);
+        box-shadow: 2px 2px 3px rgba(142, 134, 247, 0.473);
+      }
+      [type="info"]::before {
+        content: "☏  ";
+      }
+      [type="error"] {
+        background-color: rgba(245, 221, 221, 0.781);
+        color: rgb(128, 6, 6);
+        border: 1px solid rgb(233, 105, 105);
+        box-shadow: 2px 2px 3px rgba(247, 134, 134, 0.473);
+      }
+      [type="error"]::before {
+        content: "☹  ";
+      }
+      @keyframes myfirst {
+        0% {
+          opacity: 0;
+        }
+        40% {
+          opacity: 0.75;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      span {
+        cursor: pointer;
+        font-size: 20px;
+        float: right;
+        width: 30px;
+        text-align: center;
+        z-index: 100;
+      }
+      span:hover {
+        border: 1px solid silver;
+        border-radius: 3px;
+      }
+      .successMessae::before {
+        content: "成功啦";
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="success">success</button>
+    <button class="info">info</button>
+    <button class="error">error</button>
+    <button class="warning">warning</button>
+    <div class="parent"></div>
+    <script>
+      let btn = document.querySelectorAll("button");
+      let setting1 = {
+        message: "success",
+        type: "success",
+        customClass: "successMessage",
+        duration: 30,
+        center: false,
+        showClose: true,
+      };
+      let setting2 = {
+        message: "hello",
+        type: "info",
+        customClass: "successMessage",
+        duration: 30,
+        center: false,
+        showClose: true,
+      };
+      let setting3 = {
+        message: "error",
+        type: "error",
+        customClass: "successMessage",
+        duration: 30,
+        center: false,
+        showClose: true,
+      };
+      let setting4 = {
+        message: "warning",
+        type: "warning",
+        customClass: "successMessage",
+        duration: 30,
+        center: false,
+        showClose: true,
+      };
+      let arr = [setting1, setting2, setting3, setting4];
+      function newAlert(e, obj) {
+        // message 消息文字
+        this.message = obj.message;
+        // type 主题
+        this.type = obj.type === undefined ? info : obj.type;
+        // customClass 自定义类名
+        this.customClass = obj.customClass;
+        // duration	显示时间, 毫秒。设为 0 则不会自动关闭
+        this.duration = obj.duration;
+        // center	文字是否居中
+        this.center = obj.center;
+        // showClose	是否显示关闭按钮
+        this.showClose = obj.showClose === undefined ? false : obj.showClose;
+        let parent = document.querySelector(".parent");
+        let child = document.createElement("div");
+        child.innerText = message;
+        child.setAttribute("type", type);
+        if (customClass) child.className = customClass;
+        if (center) child.style.textAlign = "center";
+        let cls = document.createElement("span");
+        child.appendChild(cls);
+        cls.innerText = "×";
+        cls.setAttribute("title", "关闭");
+        cls.addEventListener("click", () => {
+          // cls.parentNode.parentNode.removeChild(cls.parentNode);
+          parent.removeChild(child);
+        });
+        // cls.onclick = function () {
+        //   parent.removeChild(child);
+        // };
+        console.log(cls);
+        // cls.onmouseover = function () {
+        //   parent.style.backgroundColor = "red";
+        // };
+        parent.appendChild(child);
+        if (!showClose) cls.style.visibility = "hidden";
+        setTimeout(() => {
+          parent.removeChild(child);
+        }, duration * 1000);
+      }
+      for (let i = 0; i < btn.length; i++) {
+        btn[i].addEventListener("click", (e) => {
+          newAlert(e, arr[i]);
+        });
+      }
+    </script>
+  </body>
+</html>
