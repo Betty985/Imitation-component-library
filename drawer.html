@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>drawer</title>
+    <style>
+      /* * {
+        margin: 0;
+        padding: 0;
+      } */
+      .welcome {
+        width: 260px;
+        position: fixed;
+        top: 30vh;
+        left: 0;
+        border: 1px solid #1989fa;
+      }
+      #welcomeBack {
+        font-size: 36px;
+        position: absolute;
+        top: 40%;
+        right: 0;
+        background-color: rgb(51, 144, 255);
+        color: white;
+        cursor: pointer;
+      }
+      @keyframes wel {
+        from {
+          transform: translateX(-200px);
+        }
+        to {
+          transform: translateX(-260px);
+          background-color: rgb(51, 144, 255);
+        }
+      }
+      @keyframes wel2 {
+        0% {
+        }
+        100% {
+          transform: translateX(260px);
+        }
+      }
+      .user {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid#1989fa;
+        text-align: center;
+        /* 父元素（inline-block\block）必须含有line-height（inline元素有无皆可），
+        子元素中的（inline-block/inline元素）vertical-align才能起作用。 */
+        line-height: 50px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="user">星球</div>
+    <div class="welcome">
+      <h3>欢迎星球的居民XX回来。</h3>
+      <p>仰望星空，</p>
+      <p>每一颗星球，</p>
+      <p>都是最别致的存在。</p>
+      <span id="welcomeBack">＜</span>
+    </div>
+    <script>
+      let draw = document.querySelector("#welcomeBack");
+      let welcome = document.querySelector(".welcome");
+      let user = document.querySelector(".user");
+      function disappear() {
+        welcome.style.cssText += "animation:wel 3s ease-out;";
+        setTimeout(() => {
+          welcome.style.cssText += "left:-260px; ";
+        }, 3000);
+      }
+      draw.addEventListener("click", (e) => {
+        disappear();
+      });
+      user.addEventListener("click", (e) => {
+        let cssText = welcome.style.cssText;
+        // if (cssText.contains("animation:wel 3s ease-out"))
+        {
+          cssText.replace(
+            "animation:wel 3s ease-out",
+            "animation:wel2 3s ease-in"
+          );
+          console.log("hello", cssText);
+        }
+        setTimeout(() => {
+          welcome.style.cssText += "left:0px; ";
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>
+
