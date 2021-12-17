@@ -37,7 +37,7 @@
       /* 不同父元素的子元素之间进行显示时，会根据父级元素的z-index进行渲染. */
       .parent > div {
         min-width: 200px;
-        max-width: 600px;
+        max-width: 400px;
         margin-left: 0;
         margin-bottom: 1rem;
         border-radius: 0.3rem;
@@ -126,6 +126,7 @@
         duration: 30,
         center: false,
         showClose: true,
+        mask: true
       };
       let setting2 = {
         message: "hello",
@@ -169,22 +170,25 @@
         this.mask = obj.mask === undefined ? false : obj.mask;
         // background	遮罩背景色
         this.background =
-          obj.background === undefined ? "black " : obj.background;
+          obj.background === undefined ? "rgba(255,255,255,0.5) " : obj.background;
         // fullscreen  是否全屏
         this.fullscreen = obj.fullscreen === undefined ? false : obj.fullscreen;
         if (mask === undefined && background !== undefined) {
           throw new Error("参数错误！");
         }
+         let parent = document.querySelector(".parent");
+        let child = document.createElement("div");
         if (mask) {
           parent.style.zIndex = "100";
           parent.style.background = background;
+          parent.style.left="0";
+          parent.style.width="100%";
           parent.style.opacity = "0.8";
           if (fullscreen) {
             parent.style.height = "100vh";
           }
         }
-        let parent = document.querySelector(".parent");
-        let child = document.createElement("div");
+       
         child.innerText = message;
         child.setAttribute("type", type);
         if (customClass) child.className = customClass;
