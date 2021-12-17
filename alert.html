@@ -168,7 +168,8 @@
         // mask 是否有遮罩  默认值false
         this.mask = obj.mask === undefined ? false : obj.mask;
         // background	遮罩背景色
-        this.background = obj.background === undefined ? black : obj.background;
+        this.background =
+          obj.background === undefined ? "black " : obj.background;
         // fullscreen  是否全屏
         this.fullscreen = obj.fullscreen === undefined ? false : obj.fullscreen;
         if (mask === undefined && background !== undefined) {
