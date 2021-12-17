@@ -165,12 +165,32 @@
         this.center = obj.center;
         // showClose	是否显示关闭按钮
         this.showClose = obj.showClose === undefined ? false : obj.showClose;
+        // mask 是否有遮罩  默认值false
+        this.mask = obj.mask === undefined ? false : obj.mask;
+        // background	遮罩背景色
+        this.background = obj.background === undefined ? black : obj.background;
+        // fullscreen  是否全屏
+        this.fullscreen = obj.fullscreen === undefined ? false : obj.fullscreen;
+        if (mask === undefined && background !== undefined) {
+          throw new Error("参数错误！");
+        }
+        if (mask) {
+          parent.style.zIndex = "100";
+          parent.style.background = background;
+          parent.style.opacity = "0.8";
+          if (fullscreen) {
+            parent.style.height = "100vh";
+          }
+        }
         let parent = document.querySelector(".parent");
         let child = document.createElement("div");
         child.innerText = message;
         child.setAttribute("type", type);
         if (customClass) child.className = customClass;
         if (center) child.style.textAlign = "center";
+        if (mask) {
+          parent.style.zIndex = 10;
+        }
         let cls = document.createElement("span");
         child.appendChild(cls);
         cls.innerText = "×";
